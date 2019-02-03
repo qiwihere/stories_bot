@@ -28,16 +28,12 @@ def start(bot, update):
 
 def text_message(bot, update):
     if update.message.text == 'Случайная история' or update.message.text == 'Ещё':
-        bot.send_message(chat_id=update.message.chat_id,
-                         text='let me see in')
         params = {
             'type': 'stories',
             'action': 'random'
         }
         r = requests.get('https://storiesapi.herokuapp.com/', params=params)
         if r.content:
-            bot.send_message(chat_id=update.message.chat_id,
-                             text='got it')
             response = json.loads(r.content)
             via = response['via']
             stories = response['data']
