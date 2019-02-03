@@ -8,17 +8,36 @@ token = '656422356:AAH37sT-yMZnDEGKtEdgtoX27OHVsl-sT-4'
 updater = Updater(token=token)
 dispatcher = updater.dispatcher
 
+default_keyboard = [
+    ['Случайная история'],
+    ['По категориям'],
+    ['О боте']
+]
+
+want_more_keyboard = [
+    ['Ещё'],
+    ['Назад']
+]
 
 def start(bot, update):
-    custom_keyboard = [['top-left', 'top-right'],
-                       ['bottom-left', 'bottom-right']]
-    reply_markup = ReplyKeyboardMarkup(custom_keyboard)
-    bot.send_message(chat_id=update.message.chat_id,
-                     text="Custom Keyboard Test",
-                     reply_markup=reply_markup)
+    reply_markup = ReplyKeyboardMarkup(default_keyboard)
+    bot.send_message(chat_id=update.message.chat_id, reply_markup=reply_markup)
 
+def text_message(bot, update):
+    if update.message.text == 'Случайная история':
+        params = {
+            'type': 'stories',
+            'action': 'random'
+        }
+        r = requests.get('https://storiesapi.herokuapp.com/',params=params)
+        if r.content:
+            response = json.loads(r.content)
+            via = response['via']
+            stories = response['stories']
+            bot.send_message(chat_id=update.message.chat_id, message=('via: %s\n\n%s' % (via,stories)))
+            bot.send_message(chat_id=update.message.chat_id, reply_markup=want_more_keyboard)
 
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
-
+updater.dispatcher.add_handler(MessageHandler(Filters.text, text_message))
 updater.start_polling()
