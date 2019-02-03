@@ -20,13 +20,10 @@ want_more_keyboard = [
 ]
 
 categories = json.loads(requests.get('https://storiesapi.herokuapp.com/', params={'type': 'stories',
-                                                                       'action': 'categories'}).content)['categories']
-k = 0
-categories_keyboard = []
+                                                                       'action': 'categories'}).content)['categories'].values()
+categories_keyboard = list()
 for category in categories:
-    categories_keyboard[k] = [category]
-    k += 1
-
+    categories_keyboard.append([category])
 
 
 def start(bot, update):
