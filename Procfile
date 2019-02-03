@@ -1,0 +1,1 @@
+worker: python stories_bot.py
