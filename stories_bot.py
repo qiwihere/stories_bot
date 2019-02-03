@@ -1,8 +1,8 @@
 import requests
 import json
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CommandHandler, CallbackQueryHandler
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
-
+from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
+from telegram import ReplyKeyboardMarkup
+from telegram.ext.dispatcher import run_async
 token = '656422356:AAH37sT-yMZnDEGKtEdgtoX27OHVsl-sT-4'
 
 updater = Updater(token=token)
@@ -31,12 +31,15 @@ for category in categories:
 
 categories_keyboard.reverse()
 
+
+@run_async
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id,
                      text='Выбери подходящий запрос',
                      reply_markup=ReplyKeyboardMarkup(default_keyboard))
 
 
+@run_async
 def text_message(bot, update):
     if update.message.text == 'Случайная история' or update.message.text == 'Ещё':
         params = {
