@@ -19,6 +19,15 @@ want_more_keyboard = [
     ['Назад']
 ]
 
+categories = json.loads(requests.get('https://storiesapi.herokuapp.com/', params={'type': 'stories',
+                                                                       'action': 'categories'}).content)['categories']
+k = 0
+categories_keyboard = []
+for category in categories:
+    categories_keyboard[k] = [category]
+    k += 1
+
+
 
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id,
@@ -44,6 +53,12 @@ def text_message(bot, update):
         bot.send_message(chat_id=update.message.chat_id,
                          text='Главное меню',
                          reply_markup=ReplyKeyboardMarkup(default_keyboard))
+
+    if update.message.text == 'По категориям':
+        bot.send_message(chat_id=update.message.chat_id,
+                         text='У меня есть такие категории:',
+                         reply_markup=ReplyKeyboardMarkup(categories_keyboard))
+
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, text_message))
