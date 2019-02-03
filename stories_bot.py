@@ -19,22 +19,24 @@ want_more_keyboard = [
     ['Назад']
 ]
 
+
 def start(bot, update):
     reply_markup = ReplyKeyboardMarkup(default_keyboard)
-    bot.send_message(chat_id=update.message.chat_id, reply_markup=reply_markup)
+    bot.send_message(chat_id=update.message.chat_id, reply_markup=default_keyboard)
+
 
 def text_message(bot, update):
-    if update.message.text == 'Случайная история':
+    if update.message.text == 'Случайная история' or update.message.text == 'Ещё':
         params = {
             'type': 'stories',
             'action': 'random'
         }
-        r = requests.get('https://storiesapi.herokuapp.com/',params=params)
+        r = requests.get('https://storiesapi.herokuapp.com/', params=params)
         if r.content:
             response = json.loads(r.content)
             via = response['via']
             stories = response['stories']
-            bot.send_message(chat_id=update.message.chat_id, message=('via: %s\n\n%s' % (via,stories)))
+            bot.send_message(chat_id=update.message.chat_id, message=('via: %s\n\n%s' % (via, stories)))
             bot.send_message(chat_id=update.message.chat_id, reply_markup=want_more_keyboard)
 
 
