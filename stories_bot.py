@@ -21,8 +21,8 @@ want_more_keyboard = [
 
 
 def start(bot, update):
-    reply_markup = ReplyKeyboardMarkup(default_keyboard)
-    bot.send_message(chat_id=update.message.chat_id, reply_markup=default_keyboard)
+    bot.send_message(chat_id=update.message.chat_id,
+                     reply_markup=ReplyKeyboardMarkup(default_keyboard))
 
 
 def text_message(bot, update):
@@ -36,8 +36,9 @@ def text_message(bot, update):
             response = json.loads(r.content)
             via = response['via']
             stories = response['stories']
-            bot.send_message(chat_id=update.message.chat_id, message=('via: %s\n\n%s' % (via, stories)))
-            bot.send_message(chat_id=update.message.chat_id, reply_markup=want_more_keyboard)
+            bot.send_message(chat_id=update.message.chat_id,
+                             text=('via: %s\n\n%s' % (via, stories)),
+                             reply_markup=ReplyKeyboardMarkup(want_more_keyboard))
 
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
