@@ -22,10 +22,10 @@ want_more_keyboard = [
 categories = json.loads(requests.get('https://storiesapi.herokuapp.com/', params={'type': 'stories',
                                                                        'action': 'categories'}).content)['categories'].values()
 
-categories_keyboard = [['назад']]
+categories_keyboard = [['Назад']]
 k = 0
 line = []
-cols = 2
+cols = 3
 for category in categories:
     k += 1
     line.append(category)
