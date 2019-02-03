@@ -1,7 +1,7 @@
 import requests
 import json
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CommandHandler, CallbackQueryHandler
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 
 token = '656422356:AAH37sT-yMZnDEGKtEdgtoX27OHVsl-sT-4'
 
@@ -12,7 +12,7 @@ dispatcher = updater.dispatcher
 def start(bot, update):
     custom_keyboard = [['top-left', 'top-right'],
                        ['bottom-left', 'bottom-right']]
-    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+    reply_markup = ReplyKeyboardMarkup(custom_keyboard)
     bot.send_message(chat_id=update.message.chat_id,
                      text="Custom Keyboard Test",
                      reply_markup=reply_markup)
