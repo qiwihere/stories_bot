@@ -63,8 +63,22 @@ def text_message(bot, update):
 
     if update.message.text == 'По категориям':
         bot.send_message(chat_id=update.message.chat_id,
-                         text='У меня есть такие категории:',
+                         text='Категории',
                          reply_markup=ReplyKeyboardMarkup(categories_keyboard))
+
+    if update.message.text in categories:
+        params = {
+            'type': 'stories',
+            'action': 'by_cat',
+            'tag': update.message.text
+        }
+        r = requests.get('https://storiesapi.herokuapp.com/', params=params)
+        if r.content:
+            response = json.loads(r.content)
+            via = response['via']
+            stories = response['data']
+            bot.send_message(chat_id=update.message.chat_id,
+                             text=('via: %s\n\n%s' % (via, stories)))
 
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
