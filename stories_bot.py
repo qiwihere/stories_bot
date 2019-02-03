@@ -42,8 +42,6 @@ def text_message(bot, update):
             via = response['via']
             stories = response['data']
             bot.send_message(chat_id=update.message.chat_id,
-                             text=stories)
-            bot.send_message(chat_id=update.message.chat_id,
                              text=('via: %s\n\n%s' % (via, stories)),
                              reply_markup=ReplyKeyboardMarkup(want_more_keyboard))
 
