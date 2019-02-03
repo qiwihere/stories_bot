@@ -40,7 +40,10 @@ def text_message(bot, update):
             bot.send_message(chat_id=update.message.chat_id,
                              text=('via: %s\n\n%s' % (via, stories)),
                              reply_markup=ReplyKeyboardMarkup(want_more_keyboard))
-
+    if update.message.text == 'Назад':
+        bot.send_message(chat_id=update.message.chat_id,
+                         text='Главное меню',
+                         reply_markup=ReplyKeyboardMarkup(default_keyboard))
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, text_message))
