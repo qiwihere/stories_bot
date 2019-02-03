@@ -16,14 +16,11 @@ want_more_keyboard = [
 
 
 def start(bot, update):
-    default_keyboard = [
-        ['Случайная история'],
-        ['По категориям'],
-        ['О боте']
-    ]
-
+    custom_keyboard = [['top-left', 'top-right'],
+                       ['bottom-left', 'bottom-right']]
+    reply_markup = ReplyKeyboardMarkup(custom_keyboard)
     bot.send_message(chat_id=update.message.chat_id,
-                     reply_markup=ReplyKeyboardMarkup(default_keyboard))
+                     reply_markup=reply_markup)
 
 '''
 def text_message(bot, update):
