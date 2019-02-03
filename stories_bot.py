@@ -21,10 +21,20 @@ want_more_keyboard = [
 
 categories = json.loads(requests.get('https://storiesapi.herokuapp.com/', params={'type': 'stories',
                                                                        'action': 'categories'}).content)['categories'].values()
-categories_keyboard = list()
-for category in categories:
-    categories_keyboard.append([category])
 
+categories_keyboard = [['назад']]
+k = 0
+line = []
+cols = 2
+for category in categories:
+    k += 1
+    line.append(category)
+
+    if not k % cols:
+        categories_keyboard.append(line)
+        line = []
+
+categories_keyboard.reverse()
 
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id,
