@@ -14,11 +14,6 @@ default_keyboard = [
     ['О боте']
 ]
 
-want_more_keyboard = [
-    ['Ещё'],
-    ['Назад']
-]
-
 categories = json.loads(requests.get('https://storiesapi.herokuapp.com/', params={'type': 'stories',
                                                                        'action': 'categories'}).content)['categories'].values()
 
@@ -54,8 +49,8 @@ def text_message(bot, update):
             via = response['via']
             stories = response['data']
             bot.send_message(chat_id=update.message.chat_id,
-                             text=('via: %s\n\n%s' % (via, stories)),
-                             reply_markup=ReplyKeyboardMarkup(want_more_keyboard))
+                             text=('via: %s\n\n%s' % (via, stories)))
+
     if update.message.text == 'Назад':
         bot.send_message(chat_id=update.message.chat_id,
                          text='Главное меню',
